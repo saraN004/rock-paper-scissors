@@ -4,56 +4,111 @@ function getComputerChoice() {
     return randomElement
 }
 
-function playRound() {
+function playRound(button_value) {
     let winner;
     // getting the user's choice
-    user_choice = prompt('please enter your choice of either rock, paper or scissors: ').toLocaleLowerCase();
-    //check input
-    if (!(choice.includes(user_choice))) {
-        console.log('please enter a valid input')
+    user_choice = button_value;
+    // get the computer's choise
+    computer_choice = getComputerChoice();
+    //output the result
+    //when its a tie
+    if (user_choice == computer_choice) {
+        const result = document.querySelector('.result');
+        const resultText = document.createElement("h3");
+        resultText.textContent = `its a tie!, both players chose ${user_choice}`;
+        result.appendChild(resultText);
+
+        // when the player lose
+    } else if (
+        (user_choice == 'rock' && computer_choice == 'paper') ||
+        (user_choice == 'paper' && computer_choice == 'scissors') ||
+        (user_choice == 'scissors' && computer_choice == 'rock')) {
+        const result = document.querySelector('.result');
+        const resultText = document.createElement("h3");
+        resultText.textContent = `you lose!, ${computer_choice} beats ${user_choice}`;
+        result.appendChild(resultText)
+
+
+        winner = 'computer';
+        // when the player wins
     } else {
+        const result = document.querySelector('.result');
+        const resultText = document.createElement("h3");
+        resultText.textContent = `you win!, ${user_choice} beats ${computer_choice}`;
+        result.appendChild(resultText)
 
-        // get the computer's choise
-        computer_choice = getComputerChoice();
-        //output the result
-        //when its a tie
-        if (user_choice == computer_choice) {
-            console.log(`its a tie!, both players chose ${user_choice}`)
-            // when the player lose
-        } else if (
-            (user_choice == 'rock' && computer_choice == 'paper') ||
-            (user_choice == 'paper' && computer_choice == 'scissors') ||
-            (user_choice == 'scissors' && computer_choice == 'rock')) {
+        winner = 'user';
 
-            console.log(`you lose!, ${computer_choice} beats ${user_choice}`);
-            winner = 'computer';
-            // when the player wins
+    }
+    return winner
+
+
+}
+
+// calculating the score of both players until one reaches 5 points 
+let userScore = 0;
+let computerScore = 0;
+let scoreContainer = document.querySelector(".score");
+let userScoreDisplay = document.createElement('p');
+let computerScoreDisplay = document.createElement('p');
+function calculateWinner(button_value) {
+    let winner = playRound(button_value);
+    if (winner == 'user') {
+        userScore += 1;
+        console.log(userScore)
+        // display score on the DOM
+        userScoreDisplay.textContent = ` player : ${userScore}`;
+        scoreContainer.appendChild(userScoreDisplay);
+    } if (winner == 'computer') {
+        computerScore += 1;
+        console.log(computerScore)
+        // display score on the DOM  
+        computerScoreDisplay.textContent = ` computer : ${computerScore}`;
+        scoreContainer.appendChild(computerScoreDisplay);
+    }
+    //when one player has 5 points announce the winner
+    let finalResult = document.createElement("p");
+    if (userScore == 5 || computerScore == 5) {
+        if (userScore > computerScore) {
+            finalResult.textContent = 'you have won';
+            scoreContainer.appendChild(finalResult);
+            console.log('you win...')
+
+        } if (userScore < computerScore) {
+            finalResult.textContent = 'you have lost';
+            scoreContainer.appendChild(finalResult);
+            console.log('you lose!..')
         } else {
-            console.log(`you win!, ${user_choice} beats ${computer_choice}`);
-            winner = 'user';
+            console.log('its a tie!>>')
+
         }
-        return winner
 
     }
 }
 
-function playGame() {
-    let rounds = 5;
-    let user_score = 0;
-    let computer_score = 0;
-    let winner;
-    for (i = 1; i <= rounds; i++) {
-        winner = playRound();
-        if (winner == 'user') {
-            user_score++;
-        } else if (winner == 'computer') {
-            computer_score++;
-        }
-    }
-    if (user_score > computer_score) {
-        console.log(`congrats!, final score -> ${user_score} : ${computer_score}`)
-    } else {
-        console.log(`hard luck, final score -> ${user_score} : ${computer_score}`)
-    }
-}
-playGame();
+
+
+
+
+// adding event listeners
+let rock = document.querySelector('#rock');
+rock.addEventListener('click', () => {
+    calculateWinner('rock');
+})
+
+let paper = document.querySelector('#paper');
+paper.addEventListener('click', () => {
+    calculateWinner('paper');
+})
+
+let scissors = document.querySelector('#scissors');
+scissors.addEventListener('click', () => {
+    calculateWinner('scissors');
+})
+
+
+
+
+
+
+
