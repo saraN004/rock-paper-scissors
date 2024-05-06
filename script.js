@@ -17,6 +17,9 @@ function playRound(button_value) {
         const resultText = document.createElement("h3");
         resultText.textContent = `its a tie!, both players chose ${user_choice}`;
         result.appendChild(resultText);
+        setTimeout(() => {
+            resultText.style.display = 'none';
+        }, 3000);
 
         // when the player lose
     } else if (
@@ -27,7 +30,9 @@ function playRound(button_value) {
         const resultText = document.createElement("h3");
         resultText.textContent = `you lose!, ${computer_choice} beats ${user_choice}`;
         result.appendChild(resultText)
-
+        setTimeout(() => {
+            resultText.style.display = 'none';
+        }, 3000);
 
         winner = 'computer';
         // when the player wins
@@ -36,7 +41,9 @@ function playRound(button_value) {
         const resultText = document.createElement("h3");
         resultText.textContent = `you win!, ${user_choice} beats ${computer_choice}`;
         result.appendChild(resultText)
-
+        setTimeout(() => {
+            resultText.style.display = 'none';
+        }, 3000);
         winner = 'user';
 
     }
@@ -59,6 +66,7 @@ function calculateWinner(button_value) {
         // display score on the DOM
         userScoreDisplay.textContent = ` player : ${userScore}`;
         scoreContainer.appendChild(userScoreDisplay);
+
     } if (winner == 'computer') {
         computerScore += 1;
         console.log(computerScore)
@@ -67,7 +75,7 @@ function calculateWinner(button_value) {
         scoreContainer.appendChild(computerScoreDisplay);
     }
     //when one player has 5 points announce the winner
-    let finalResult = document.createElement("p");
+    let finalResult = document.createElement("h2");
     if (userScore == 5 || computerScore == 5) {
         if (userScore > computerScore) {
             finalResult.textContent = 'you have won';
